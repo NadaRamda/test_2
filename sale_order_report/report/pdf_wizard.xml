@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="report_pdf_wiz" model="ir.actions.report">
+            <field name="name">report pdf wiz</field>
+            <field name="model">sale.order.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sale_order_report.report_pdf_sale_orders</field>
+            <field name="report_file">sale_order_report.report_pdf_sale_orders</field>
+            <field name="binding_model_id" ref="sale_order_report.model_sale_order_report_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
+        <template id="report_pdf_sale_orders">
+            <t t-call="web.html_container">
+                <h2>Sale Order</h2>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="text-center">
+                            <h2>Sale Orders</h2>
+                        </div>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-auto col-3 mw-100 mb-2">
+                                <strong>From :</strong>
+                                 <p class="m-0" t-esc="data['start_date']"/>
+                            </div>
+                            <div class="col-auto col-3 mw-100 mb-2">
+                                <strong>To :</strong>
+                                <p class="m-0" t-esc="data['end_date']"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col"><span>Number</span></th>
+                                    <th scope="col"><span>customer</span></th>
+                                    <th scope="col"><span>Order date</span></th>
+                                    <th scope="col"><span>Sales Person</span></th>
+                                    <th scope="col"><span>Total</span></th>
+                                </tr>
+                            </thead>
+                            <t t-set="total" t-value="0"/>
+                            <t t-foreach="orders" t-as="o">
+                                <t t-set="total" t-value="total+o.amount_total"/>
+                                <tr>
+                                    <td scope="row"><span t-field="o.name"/></td>
+                                    <th scope="row"><span t-esc="o.partner_id.name"/></th>
+                                    <th scope="row"><span t-field="o.date_order"/></th>
+                                    <th scope="row"><span t-field="o.user_id"/></th>
+                                    <th scope="row"><span t-field="o.amount_total"/></th>
+                                </tr>
+                            </t>
+                        </table>
+                        <div class="clearfix">
+                            <div id="total" class="row">
+                                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr class="border-black o_total">
+                                            <td>
+                                                <strong>Total</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <td><span t-esc="total"/></td>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

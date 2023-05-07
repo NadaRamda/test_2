@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="new_wizard_test" model="ir.ui.view">
+        <field name="name">new wizard test</field>
+        <field name="model">sale.order.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="create wizard">
+                <group class="oe_title">
+                    <group>
+                        <field name="start_date"/>
+                    </group>
+                    <group>
+                        <field name="end_date"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="generate_report" string="Print Xlsx" type="object"
+                    class="btn-primary"/>
+                    <button name="generate_report_pdf" string="Print Pdf" type="object"
+                    class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="new_action_create_wizard_test" model="ir.actions.act_window">
+        <field name="name">wizard test</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="new_wizard_test"/>
+        <field name="target">new</field>
+    </record>
+    <menuitem name="new_report"
+                  id="menu_367"
+                  parent="sale.menu_sale_report"
+                  action="new_action_create_wizard_test"/>
+
+
+</odoo>
